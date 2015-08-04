@@ -1,55 +1,72 @@
 #include<stdio.h>
 
-char returnvalue(int i, int j);
+char returnvalue(char i, char j);
 
-int signflag=0;
+void printcase(char c,int count);
+
+char result(char c[],int L);
+
+int signflag=0,X=0,L=0;
 
 int main(){
     
-    int m=0,n=0;
-    char ch,ck,val;
+    FILE *f;
+    int num_test_case=0,count=0;
+    char ch[100],ree;
     
-    for( m=0;m<4;m++){
-         printf("\n");
-         for(n=0;n<4;n++){
-                          if(m==0){
-                                  ch='1';
-                          }
-                          if(m==1){
-                                  ch='i';
-                          }
-                          if(m==2){
-                                  ch='j';
-                          }
-                          if(m==3){
-                                 ch='k';
-                          }
-                          if(n==0){
-                                  ck='1';
-                          }
-                          if(n==1){
-                                  ck='i';
-                          }
-                          if(n==2){
-                                  ck='j';
-                          }
-                          if(n==3){
-                                 ck='k';
-                          }
-                          
-                          val=returnvalue(ch,ck);
-                          if(signflag == 1){
-                          printf("\t-%c",val);
-                          }
-                          printf("\t%c",val);
-         }
-         }
+    f = fopen("input.txt","r");
+    
+    fscanf(f,"%d",&num_test_case);
+    
+    //printf("%d",num_test_case);
+    
+    
+    while(count<num_test_case){
+                               
+                     count++;
+                     signflag=0;
+                     //printf("\n");
+                     
+                     fscanf(f,"%d %d", &X, &L);
+                     //printf("%d %d",X,L);
+                     //printf("\n");
+                     fscanf(f,"%s", ch);
+                     //printf("%s",ch);
+                     if( (X*L) < 3){
+                         printcase('N',count);
+                     }
+                     else{
+                          ree=result(ch,L);
+                          printcase(ree,count);
+                     }
+    }
+    
     getch();
     return 0;
 }
 
+char result(char c[],int L){
+     
+     int i=0;
+     char re=c[0];
+     
+     for(i=1;c[i]!='\0';i++){
+                             
+                             re=returnvalue(re,c[i]);
+     }
+     
+     if( signflag == 0){
+         if( re=='i' || re=='j' || re=='k'){
+             if(L%2==0){
+                        return
+         }
+         else{
+              return 'N';
+         }
+     }
+}
     
-char returnvalue(int i, int j){
+char returnvalue(char i, char j){
      
      signflag=0;
      
@@ -75,26 +92,37 @@ char returnvalue(int i, int j){
      
      if( (i=='i' && j=='i') || (i=='j' && j=='j') || (i=='k' && j=='k') ){
          
-         signflag = 1;
+         signflag += 1;
          return '1';
      }
      
      if( (i=='k' && j=='j') ){
          
-         signflag = 1;
+         signflag += 1;
          return 'i';
      }
      
      if( (i=='i' && j=='k') ){
          
-         signflag = 1;
+         signflag += 1;
          return 'j';
      }
      
      if( (i=='j' && j=='i') ){
          
-         signflag = 1;
+         signflag += 1;
          return 'k';
      }
      
+}
+
+void printcase(char c,int count){
+     
+     if(c=='Y'){
+                
+                printf("\nTestCase #%d: YES",count);
+     }
+     if(c=='N'){
+                printf("\nTestCase #%d: NO",count);
+     }
 }
